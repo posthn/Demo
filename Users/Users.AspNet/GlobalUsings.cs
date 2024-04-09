@@ -1,0 +1,10 @@
+global using Demo.Core.Api.RequestsPool.Users.Create;
+global using Demo.Core.Api.RequestsPool.Users.Delete;
+global using Demo.Core.Api.RequestsPool.Users.Read;
+global using Demo.Core.Api.RequestsPool.Users.Update;
+global using Demo.Core.AspNet.Controllers;
+global using Demo.Core.AspNet.Bodies;
+global using Demo.Users.AspNet.Bodies;
+global using MediatR;
+global using Microsoft.AspNetCore.Authorization;
+global using Microsoft.AspNetCore.Mvc;
