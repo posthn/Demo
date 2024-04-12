@@ -20,5 +20,5 @@ public class User : LogicalDeletation
         => u => u.Id == id;
 
     public static Expression<Func<User, bool>> FilterByLogin(string login)
-        => u => string.Compare(u.Login, login, true) == 0;
+        => u => u.Login.ToLower() == login.ToLower();
 }

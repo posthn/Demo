@@ -1,0 +1,10 @@
+services:
+  executable:
+    image: demo-image
+    ports:
+      - "9998:8080"
+    environment:
+      - "Environment=Production"
+      - "JwtKey=Afek432erqAkjfsd7JKHef52376eHGgfsehkq126"
+      - "AuthConnectionString=User ID=postgres;Password=*password*;Host=localhost;Port=*port*;Pooling=true;Database=DemoDb.Auth;Minimum Pool Size=0;Maximum Pool Size=100;Connection Lifetime=0;"
+      - "UsersConnectionString=User ID=postgres;Password=*password*;Host=localhost;Port=*port*;Pooling=true;Database=DemoDb.Users;Minimum Pool Size=0;Maximum Pool Size=100;Connection Lifetime=0;"

@@ -4,6 +4,9 @@ public static class ServicesExtension
 {
     public static IServiceCollection AddDemoServices(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddAuthServices(configuration["AuthConnectionString"], configuration["JwtKey"]);
+        services.AddUsersServices(configuration["UsersConnectionString"]);
+
         #region BaseServices
         services.AddControllers();
         services.AddEndpointsApiExplorer();
@@ -32,7 +35,7 @@ public static class ServicesExtension
                                     Type = ReferenceType.SecurityScheme,
                                     Id = "Bearer"
                                 },
-                                Scheme = "oauth2",
+                                Scheme = "oAuth2",
                                 Name = "Bearer",
                                 In = ParameterLocation.Header,
                             },
@@ -51,9 +54,6 @@ public static class ServicesExtension
             )
         );
         #endregion
-
-        services.AddAuthServices(/* configuration["AuthConnectionString"] */"AuthDb", configuration["JwtKey"]);
-        services.AddUsersServices(/* configuration["UsersConnectionString"] */"UsersDb");
 
         return services;
     }

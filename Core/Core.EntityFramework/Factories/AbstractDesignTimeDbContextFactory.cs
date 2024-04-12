@@ -7,7 +7,7 @@ public abstract class AbstractDesignTimeDbContextFactory<TContext> : IDesignTime
     public TContext CreateDbContext(string[] args)
     {
         var optionsBuilder = new DbContextOptionsBuilder<TContext>();
-        // ...
+        optionsBuilder.UseNpgsql(string.Empty);
 
         return (TContext)typeof(TContext).GetConstructor([optionsBuilder.Options.GetType()])!.Invoke([optionsBuilder.Options]);
     }

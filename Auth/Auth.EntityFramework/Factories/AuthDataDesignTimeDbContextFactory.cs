@@ -1,3 +1,5 @@
+using Demo.Core.EntityFramework.Factories;
+
 namespace Demo.Auth.EntityFramework.Factories;
 
-public class AuthDataDesignTimeDbContextFactory { }
+public class AuthDataDesignTimeDbContextFactory : AbstractDesignTimeDbContextFactory<AuthDbContext> { }

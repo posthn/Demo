@@ -4,9 +4,11 @@ public static class WebApplicationExtension
 {
     public static WebApplication UseDemoMiddleware(this WebApplication app)
     {
-        app.UseCors("AllowAll");
         app.UseAuthentication();
         app.UseAuthorization();
+
+        app.UseCors("AllowAll");
+
         app.MapControllers();
 
         app.UseSwagger();

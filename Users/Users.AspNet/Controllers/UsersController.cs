@@ -2,6 +2,7 @@ namespace Demo.Users.AspNet.Controllers;
 
 public class UsersController(IMediator mediator) : DemoControllerBase
 {
+    [AllowAnonymous]
     [HttpPost]
     public async Task<IActionResult> CreateUserAsync([FromBody] CreateUserBody request, CancellationToken ct)
         => await ProcessRequestAsync(() => mediator.Send(new CreateUser

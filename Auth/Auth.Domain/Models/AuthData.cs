@@ -15,5 +15,5 @@ public class AuthData
     }
 
     public static Expression<Func<AuthData, bool>> FilterByLogin(string login)
-        => x => string.Compare(x.Login, login, true) == 0;
+        => x => x.Login.ToLower() == login.ToLower();
 }

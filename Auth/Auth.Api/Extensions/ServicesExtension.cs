@@ -4,7 +4,7 @@ public static class ServicesExtension
 {
     public static IServiceCollection AddAuthServices(this IServiceCollection services, string connectionString, string key)
     {
-        services.AddDbContext<AuthDbContext>(options => options.UseInMemoryDatabase(connectionString));
+        services.AddDbContext<AuthDbContext>(options => options.UseNpgsql(connectionString));
         services.AddTransient(_ => new TokenManager(key));
 
         services
