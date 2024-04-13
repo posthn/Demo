@@ -4,8 +4,6 @@ public class UpdateAuthDataHandler(AuthDbContext context) : IRequestHandler<Upda
 {
     public async Task<Unit> Handle(UpdateAuthData request, CancellationToken ct)
     {
-        var problemList = new List<string>();
-
         var target = await context.Set<AuthData>().FirstAsync(AuthData.FilterByLogin(request.CurrentLogin), ct);
 
         if (string.IsNullOrEmpty(request.NewLogin) is false)
@@ -13,15 +11,12 @@ public class UpdateAuthDataHandler(AuthDbContext context) : IRequestHandler<Upda
 
         if (string.IsNullOrEmpty(request.NewPassword) is false)
         {
-            var password = PasswordHelper.StringFromBase64(request.NewPassword);
-            if (string.IsNullOrEmpty(password))
-                problemList.Add("Invalid Password");
-            problemList = [.. PasswordHelper.CheckPassword(request.NewPassword)];
-
+            var problemList = PasswordHelper.CheckPassword(request.NewPassword);
             if (problemList.Any())
                 throw new InvalidAuthDataException(problemList);
 
-            target.PasswordHash = PasswordHelper.CreateHash(password!);
+            var password = PasswordHelper.GetStringFromBase64(request.NewPassword);
+            target.PasswordHash = PasswordHelper.CreateHash(password);
         }
 
         await context.SaveChangesAsync(ct);

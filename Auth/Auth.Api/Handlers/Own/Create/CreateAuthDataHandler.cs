@@ -4,17 +4,13 @@ public class CreateAuthDataHandler(AuthDbContext context) : IRequestHandler<Crea
 {
     public async Task<Unit> Handle(CreateAuthData request, CancellationToken ct)
     {
-        var problemList = new List<string>();
-
-        var password = PasswordHelper.StringFromBase64(request.Password);
-        if (string.IsNullOrEmpty(password))
-            problemList.Add("Invalid password");
-        problemList = [.. PasswordHelper.CheckPassword(request.Password)];
+        var problemList = PasswordHelper.CheckPassword(request.Password);
 
         if (problemList.Any())
             throw new InvalidAuthDataException(problemList);
 
-        await context.AddAsync(new AuthData(request.Login, PasswordHelper.CreateHash(password!)), ct);
+        var password = PasswordHelper.GetStringFromBase64(request.Password);
+        await context.AddAsync(new AuthData(request.Login, PasswordHelper.CreateHash(password)), ct);
 
         await context.SaveChangesAsync(ct);
 

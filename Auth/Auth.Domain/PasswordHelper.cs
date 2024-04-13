@@ -4,16 +4,11 @@ namespace Demo.Auth.Domain;
 
 public static class PasswordHelper
 {
-    public static string? StringFromBase64(string base64)
+    public static string GetStringFromBase64(string value)
     {
-        try
-        {
-            return Encoding.UTF8.GetString(Convert.FromBase64String(base64));
-        }
-        catch
-        {
-            return null;
-        }
+        value = value.Insert(value.Length - 1, new string('d', 4 - (value.Length % 4)));
+
+        return Encoding.UTF8.GetString(Convert.FromBase64String(value));
     }
 
     public static string CreateHash(string password)
@@ -28,7 +23,7 @@ public static class PasswordHelper
     {
         var result = new List<string>();
 
-        if (password?.Length < PasswordConstants.MaxPasswordLenght && password?.Length > PasswordConstants.MaxPasswordLenght)
+        if (password.Length < PasswordConstants.MinPasswordLenght && password.Length > PasswordConstants.MaxPasswordLenght)
             result.Add("Password must be between 8 and 50 characters long.");
 
         if (ContainsDifferentCaseCharacters(password) is false)
@@ -40,9 +35,9 @@ public static class PasswordHelper
         return result;
     }
 
-    private static bool ContainsNumbersOrSpecialCharacters(string? password)
+    private static bool ContainsNumbersOrSpecialCharacters(string password)
         => password is not null && password.ToUpper().Except(password.ToLower()).Any() is true;
 
-    private static bool ContainsDifferentCaseCharacters(string? password)
+    private static bool ContainsDifferentCaseCharacters(string password)
         => password is not null && password.Except(password.ToLower()).Any() is true;
 }

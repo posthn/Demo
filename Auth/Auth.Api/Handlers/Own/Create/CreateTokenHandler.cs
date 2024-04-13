@@ -13,10 +13,7 @@ public class CreateTokenHandler(IMediator mediator, AuthDbContext context, Token
         if (target is null)
             return null;
 
-        var password = PasswordHelper.StringFromBase64(request.Password);
-        if (string.IsNullOrEmpty(password))
-            return null;
-
+        var password = PasswordHelper.GetStringFromBase64(request.Password);
         if (string.Compare(PasswordHelper.CreateHash(password), target.PasswordHash) != 0)
             return null;
 
