@@ -1,10 +1,21 @@
 services:
-  executable:
+  demo.web:
     image: demo-image
+    container_name: demo.web
     ports:
       - "9998:8080"
     environment:
       - "Environment=Production"
       - "JwtKey=Afek432erqAkjfsd7JKHef52376eHGgfsehkq126"
-      - "AuthConnectionString=User ID=postgres;Password=*password*;Host=localhost;Port=*port*;Pooling=true;Database=DemoDb.Auth;Minimum Pool Size=0;Maximum Pool Size=100;Connection Lifetime=0;"
-      - "UsersConnectionString=User ID=postgres;Password=*password*;Host=localhost;Port=*port*;Pooling=true;Database=DemoDb.Users;Minimum Pool Size=0;Maximum Pool Size=100;Connection Lifetime=0;"
+      - "AuthConnectionString=User ID=postgres;Password=qwerty13;Host=demo.db;Port=5432;Pooling=true;Database=DemoDb.Auth;Minimum Pool Size=0;Maximum Pool Size=100;Connection Lifetime=0;"
+      - "UsersConnectionString=User ID=postgres;Password=qwerty13;Host=demo.db;Port=5432;Pooling=true;Database=DemoDb.Users;Minimum Pool Size=0;Maximum Pool Size=100;Connection Lifetime=0;"
+    links:
+      - demo.db
+
+  demo.db:
+    image: postgres:latest
+    container_name: demo.db
+    environment:
+      - "POSTGRES_PASSWORD=qwerty13"
+    ports:
+      - "6543:5432"
