@@ -14,6 +14,14 @@ public static class WebApplicationExtension
         app.UseSwagger();
         app.UseSwaggerUI();
 
+        if (app.Environment.IsDevelopment())
+        {
+            var provider = app.Services.CreateScope().ServiceProvider;
+
+            provider.ApplyAuthMigrations();
+            provider.ApplyUsersMigrations();
+        }
+
         return app;
     }
 }
